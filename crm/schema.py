@@ -2,6 +2,12 @@ import graphene
 from graphene_django import DjangoObjectType
 from .models import Customer, Product, Order
 
+Check if a Query class exists in schema.py, inherits from graphene.ObjectType, and defines an attribute all_customers = graphene.List(CustomerType).
+
+Check if Query has been imported from crm.schema.
+
+alx_backend_graphql/schema.py doesn't contain: ["from crm.schema import"]
+
 class CustomerType(DjangoObjectType):
     class Meta:
         model = Customer
