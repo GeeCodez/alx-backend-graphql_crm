@@ -1,6 +1,11 @@
 import graphene
+from crm.schema import Mutation as CRMMutation, CustomerType, ProductType, OrderType
 
-class Query(CRMQuery,graphene.ObjectType):
-    hello = graphene.String(default_value="Hello, GraphQL!")
+class Query(graphene.ObjectType):
+    # optional: add queries here
+    pass
 
-schema = graphene.Schema(query=Query)
+class Mutation(CRMMutation, graphene.ObjectType):
+    pass
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
