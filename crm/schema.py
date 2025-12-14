@@ -8,9 +8,6 @@ Check if Query has been imported from crm.schema.
 
 alx_backend_graphql/schema.py doesn't contain: ["from crm.schema import"]
 
-class Query(graphene.ObjectType):
-    all_customers = graphene.List(CustomerType)
-
 class CustomerType(DjangoObjectType):
     class Meta:
         model = Customer
@@ -121,3 +118,10 @@ class Mutation(graphene.ObjectType):
     bulk_create_customers = BulkCreateCustomers.Field()
     create_product = CreateProduct.Field()
     create_order = CreateOrder.Field()
+
+class Query(graphene.ObjectType):
+    all_customers = DjangoFilterConnectionField(CustomerType, filterset_class=CustomerFilter)
+    all_products = DjangoFilterConnectionField(ProductType, filterset_class=ProductFilter)
+    all_orders = DjangoFilterConnectionField(OrderType, filterset_class=OrderFilter)
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
