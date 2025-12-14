@@ -122,5 +122,5 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 GRAPHENE = {
-    "SCHEMA": "alx-backend-graphql_crm.schema.schema"  # points to our schema file
+    "SCHEMA": "alx-backend-graphql.schema.schema"  # points to our schema file
 }
