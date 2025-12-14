@@ -1,11 +1,13 @@
 import graphene
-from crm.schema import Mutation as CRMMutation, CustomerType, ProductType, OrderType
+from .models import Customer
+from .types import CustomerType  # Make sure you have this defined in types.py
+
 
 class Query(graphene.ObjectType):
-    # optional: add queries here
-    pass
+    all_customers = graphene.List(CustomerType)
 
-class Mutation(CRMMutation, graphene.ObjectType):
-    pass
+    def resolve_all_customers(root, info):
+        return Customer.objects.all()
 
-schema = graphene.Schema(query=Query, mutation=Mutation)
+
+schema = graphene.Schema(query=Query)
