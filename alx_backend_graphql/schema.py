@@ -1,7 +1,7 @@
 import graphene
 from crm.schema import Mutation as CRMMutation, CustomerType, ProductType, OrderType
 
-class Query(graphene.ObjectType):
+class Query(CRMQuery, graphene.ObjectType):
     # optional: add queries here
     pass
 
