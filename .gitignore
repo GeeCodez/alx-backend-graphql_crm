@@ -1,0 +1,41 @@
+# Python & Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.env/
+.venv/
+env/
+venv/
+ENV/
+*.egg
+*.whl
+build/
+develop-eggs/
+dist/
+eggs/
+*.egg-info/
+.installed.cfg
+pip-delete-this-directory.txt
+pip-log.txt
+
+# Django & Web Specific
+*.log
+*.pot
+*.mo
+*.coverage
+htmlcov/
+.coverage
+/staticfiles/
+/media/
+db.sqlite3
+local_settings.py
+settings_local.py
+.env
+
+# Operating System & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.bak
