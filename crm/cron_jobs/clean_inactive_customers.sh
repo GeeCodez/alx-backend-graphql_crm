@@ -6,6 +6,7 @@ source venv/bin/activate
 
 #running django shell
 python manage.py shell <<END
+print("Starting cleanup of inactive customers...")
 from crm.models import Customer
 from datetime import timedelta
 from django.utils import timezone
