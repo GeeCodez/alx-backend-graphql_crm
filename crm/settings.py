@@ -125,7 +125,7 @@ STATIC_URL = 'static/'
 GRAPHENE = {
     "SCHEMA": "alx-backend-graphql.schema.schema"  # points to our schema file
 }
-CRONJOB=[
+CRONJOBS=[
     ('*/5 * * * *', 'crm.cron.log_crm_heartbeat'),
     ('0 */12 * * *', 'crm.cron.update_low_stock'),
 ]
