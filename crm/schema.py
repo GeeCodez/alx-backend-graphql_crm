@@ -1,7 +1,6 @@
 import graphene
 from graphene_django import DjangoObjectType
-from crm.models import Customer, Product, Order
-from crm.models import Product
+from crm.models import Product, Customer, Order
 
 class CustomerType(DjangoObjectType):
     class Meta:
@@ -144,3 +143,21 @@ class Query(graphene.ObjectType):
     all_customers = DjangoFilterConnectionField(CustomerType, filterset_class=CustomerFilter)
     all_products = DjangoFilterConnectionField(ProductType, filterset_class=ProductFilter)
     all_orders = DjangoFilterConnectionField(OrderType, filterset_class=OrderFilter)
+
+class CRMReportType(graphene.ObjectType):
+    total_customers = graphene.Int()
+    total_orders = graphene.Int()
+    total_revenue = graphene.Float()
+
+
+class Query(graphene.ObjectType):
+    crm_report = graphene.Field(CRMReportType)
+
+    def resolve_crm_report(root, info):
+        return CRMReportType(
+            total_customers=Customer.objects.count(),
+            total_orders=Order.objects.count(),
+            total_revenue=Order.objects.aggregate(
+                total=Sum("totalamount")
+            )["total"] or 0,
+        )

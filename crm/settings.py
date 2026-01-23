@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'crm',
     'rest_framework',
     'graphene_django',
-    'django_crontab'
+    'django_crontab',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,7 @@ CRONJOBS=[
     ('*/5 * * * *', 'crm.cron.log_crm_heartbeat'),
     ('0 */12 * * *', 'crm.cron.update_low_stock'),
 ]
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
