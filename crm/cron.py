@@ -1,22 +1,35 @@
 from datetime import datetime
-import requests
+from gql import gql, Client
+from gql.transport.requests import RequestsHTTPTransport
 
 def log_crm_heartbeat():
-    """Log a heartbeat message indicating the CRM system is active."""
-    timestamp=datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-
-    with open("tmp/crm_heartbeat.log", "a") as log_file:
-        log_file.write(f"{timestamp} CRM is alive\n")
+    timestamp = datetime.now().strftime("%d/%m/%Y-%H:%M:%S")
+    log_file = "/tmp/crm_heartbeat_log.txt"
 
     try:
-        response= requests.post(
-            'http://localhost:8000/graphql/',
-            json={'query': '{ hello }'},
-            timeout=5
+        transport = RequestsHTTPTransport(
+            url="http://localhost:8000/graphql",
+            verify=True,
+            retries=3,
         )
-        if response.status_code == 200:
-            print(f"{timestamp} CRM heartbeat check successful.")
-        else:
-            print(f"{timestamp} CRM endpoint returned {response.status_code}.")
+
+        client = Client(transport=transport, fetch_schema_from_transport=True)
+
+        query = gql("""
+        query {
+            hello
+        }
+        """)
+
+        client.execute(query)
+
+        with open(log_file, "a") as f:
+            f.write(f"{timestamp} [INFO] CRM is alive\n")
+
+        print(f"{timestamp} [INFO] CRM heartbeat logged successfully")
+
     except Exception as e:
-        print(f"{timestamp} Error pinging GraphQL: {e}")
+        with open(log_file, "a") as f:
+            f.write(f"{timestamp} [ERROR] Heartbeat failed: {e}\n")
+
+        print(f"{timestamp} [ERROR] Heartbeat failed: {e}")
